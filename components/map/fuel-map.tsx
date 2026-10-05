@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Apple,
+  MapPin,
+  Navigation,
+} from "lucide-react";
 import {
   MapContainer,
   Marker,
@@ -9,11 +14,6 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
-import {
-  MapPin,
-  Navigation,
-  Route,
-} from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -106,11 +106,38 @@ function formatDistance(distance: number) {
   return `${distance.toFixed(1)} km`;
 }
 
-function getDirectionsUrl(
+function openDirections(
+  provider: "google" | "apple" | "waze",
   latitude: number,
   longitude: number,
 ) {
-  return `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+  let url = "";
+
+  switch (provider) {
+    case "google":
+      url =
+        `https://www.google.com/maps/dir/?api=1` +
+        `&destination=${latitude},${longitude}`;
+      break;
+
+    case "apple":
+      url =
+        `https://maps.apple.com/?daddr=` +
+        `${latitude},${longitude}&dirflg=d`;
+      break;
+
+    case "waze":
+      url =
+        `https://waze.com/ul?ll=` +
+        `${latitude},${longitude}&navigate=yes`;
+      break;
+  }
+
+  window.open(
+    url,
+    "_blank",
+    "noopener,noreferrer",
+  );
 }
 
 function StationPopup({
@@ -121,6 +148,9 @@ function StationPopup({
   currency: string;
 }) {
   const symbol = getCurrencySymbol(currency);
+
+  const [showDirections, setShowDirections] =
+    useState(false);
 
   return (
     <Card className="w-[270px] border-0 shadow-none">
@@ -145,7 +175,8 @@ function StationPopup({
         </div>
 
         {/* Location */}
-        {(station.city || station.distance !== null) && (
+        {(station.city ||
+          station.distance !== null) && (
           <div className="mt-3 flex items-center gap-2">
             {station.city && (
               <Badge
@@ -162,7 +193,10 @@ function StationPopup({
                 className="shrink-0 gap-1 font-medium text-green-700"
               >
                 <Navigation className="size-3" />
-                {formatDistance(station.distance)}
+
+                {formatDistance(
+                  station.distance,
+                )}
               </Badge>
             )}
           </div>
@@ -202,25 +236,103 @@ function StationPopup({
           )}
         </div>
 
-        {/* Navigation */}
-        <Button
-          type="button"
-          size="sm"
-          className="mt-3 w-full gap-2 bg-green-600 text-white hover:bg-green-700"
-          onClick={() => {
-            window.open(
-              getDirectionsUrl(
-                station.latitude,
-                station.longitude,
-              ),
-              "_blank",
-              "noopener,noreferrer",
-            );
-          }}
-        >
-          <Route className="size-4 shrink-0" />
-          <span>Indicații</span>
-        </Button>
+        {/* Directions */}
+        <div className="mt-3">
+          <Button
+            type="button"
+            size="sm"
+            className="w-full gap-2 bg-green-600 text-white hover:bg-green-700"
+            onClick={() =>
+              setShowDirections(
+                (current) => !current,
+              )
+            }
+          >
+            <Navigation className="size-4 shrink-0" />
+
+            <span>
+              {showDirections
+                ? "Închide"
+                : "Indicații"}
+            </span>
+          </Button>
+
+          {showDirections && (
+            <div className="mt-2 rounded-xl border border-slate-200 bg-white p-2 shadow-sm">
+              <p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+                Alege aplicația
+              </p>
+
+              <div className="grid grid-cols-3 gap-2">
+                {/* Google Maps */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-auto flex-col gap-1 rounded-lg px-2 py-2"
+                  onClick={() =>
+                    openDirections(
+                      "google",
+                      station.latitude,
+                      station.longitude,
+                    )
+                  }
+                >
+                  <span className="flex size-7 items-center justify-center rounded-md bg-slate-100 text-xs font-bold">
+                    G
+                  </span>
+
+                  <span className="text-[11px]">
+                    Google
+                  </span>
+                </Button>
+
+                {/* Apple Maps */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-auto flex-col gap-1 rounded-lg px-2 py-2"
+                  onClick={() =>
+                    openDirections(
+                      "apple",
+                      station.latitude,
+                      station.longitude,
+                    )
+                  }
+                >
+                  <span className="flex size-7 items-center justify-center rounded-md bg-slate-100">
+                    <Apple className="size-4" />
+                  </span>
+
+                  <span className="text-[11px]">
+                    Apple
+                  </span>
+                </Button>
+
+                {/* Waze */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="h-auto flex-col gap-1 rounded-lg px-2 py-2"
+                  onClick={() =>
+                    openDirections(
+                      "waze",
+                      station.latitude,
+                      station.longitude,
+                    )
+                  }
+                >
+                  <span className="flex size-7 items-center justify-center rounded-md bg-slate-100 text-xs font-bold">
+                    W
+                  </span>
+
+                  <span className="text-[11px]">
+                    Waze
+                  </span>
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </CardContent>
     </Card>
   );
@@ -231,7 +343,9 @@ export function FuelMap({
   userLocation,
   currency,
 }: FuelMapProps) {
-  const center = useMemo<[number, number]>(() => {
+  const center = useMemo<
+    [number, number]
+  >(() => {
     if (stations.length > 0) {
       return [
         stations[0].latitude,
