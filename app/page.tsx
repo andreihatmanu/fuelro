@@ -1,46 +1,37 @@
-import { db } from "@/lib/db";
+"use client";
+
+import { useEffect, useState } from "react";
 
 import { FuelMapWrapper } from "@/components/map/fuel-map-wrapper";
+import type { MapStation } from "@/components/map/fuel-map";
 
-export default async function MapPage() {
-  const stations = await db.station.findMany({
-    include: {
-      brand: true,
+export default function MapPage() {
+  const [stations, setStations] = useState<MapStation[]>([]);
+  const [loading, setLoading] = useState(true);
 
-      prices: {
-        where: {
-          fuelType: "GASOLINE_95",
-        },
+  useEffect(() => {
+    async function loadStations() {
+      try {
+        const response = await fetch(
+          "/api/stations?fuel=GASOLINE_95",
+        );
 
-        orderBy: {
-          observedAt: "desc",
-        },
+        if (!response.ok) {
+          throw new Error("Failed to load stations");
+        }
 
-        take: 1,
-      },
-    },
-  });
+        const data = await response.json();
 
-  const mapStations = stations.map(
-    (station) => ({
-      id: station.id,
+        setStations(data.stations);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-      name: station.name,
-
-      brand: station.brand?.name ?? null,
-
-      city: station.city,
-
-      latitude: Number(station.latitude),
-
-      longitude: Number(station.longitude),
-
-      price:
-        station.prices.length > 0
-          ? Number(station.prices[0].price)
-          : null,
-    }),
-  );
+    loadStations();
+  }, []);
 
   return (
     <main className="min-h-screen">
@@ -57,14 +48,16 @@ export default async function MapPage() {
           </div>
 
           <div className="text-sm text-gray-500">
-            {mapStations.length} stații
+            {loading
+              ? "Se încarcă..."
+              : `${stations.length} stații`}
           </div>
         </div>
       </div>
 
-      <FuelMapWrapper
-        stations={mapStations}
-      />
+      {!loading && (
+        <FuelMapWrapper stations={stations} />
+      )}
     </main>
   );
 }
