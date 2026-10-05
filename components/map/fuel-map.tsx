@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
+import { getCurrencySymbol } from "@/lib/currency";
 import {
   MapContainer,
   Marker,
@@ -38,12 +39,16 @@ type FuelMapProps = {
   currency: string;
 };
 
+
 function createPriceIcon(
   price: number | null,
+  currency: string,
 ) {
+  const symbol = getCurrencySymbol(currency);
+
   const text =
     price !== null
-      ? price.toFixed(2)
+      ? `${price.toFixed(2)} ${symbol}`
       : "—";
 
   return L.divIcon({
@@ -55,8 +60,8 @@ function createPriceIcon(
         </span>
       </div>
     `,
-    iconSize: [70, 38],
-    iconAnchor: [35, 19],
+    iconSize: [90, 38],
+    iconAnchor: [45, 19],
     popupAnchor: [0, -23],
   });
 }
@@ -141,6 +146,7 @@ export function FuelMap({
           ]}
           icon={createPriceIcon(
             station.price,
+            currency,
           )}
         >
           <Popup

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapPin } from "lucide-react";
+import { LoaderCircle, MapPin } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -80,7 +80,7 @@ export default function MapPage() {
             location.longitude.toString(),
           );
 
-          params.set("radius", "10");
+          params.set("radius", "30");
         }
 
         const response = await fetch(
@@ -132,7 +132,7 @@ export default function MapPage() {
         console.error(error);
 
         setLocationError(
-          "Nu am putut obține locația.",
+          "Nu s-a putut obține locația.",
         );
 
         setLocationLoading(false);
@@ -144,6 +144,10 @@ export default function MapPage() {
       },
     );
   }
+
+  useEffect(() => {
+    getUserLocation();
+  }, []);
 
   function handleDevLocation(
     value: string,
@@ -192,31 +196,31 @@ export default function MapPage() {
             {/* DEV */}
             {process.env.NODE_ENV ===
               "development" && (
-              <select
-                value={manualLocation}
-                onChange={(event) =>
-                  handleDevLocation(
-                    event.target.value,
-                  )
-                }
-                className="h-9 max-w-[100px] rounded-md border border-amber-300 bg-amber-50 px-2 text-xs font-medium text-amber-900 outline-none transition focus:ring-2 focus:ring-amber-200 sm:max-w-none sm:text-sm"
-              >
-                <option value="">
-                  🛠 Dev
-                </option>
+                <select
+                  value={manualLocation}
+                  onChange={(event) =>
+                    handleDevLocation(
+                      event.target.value,
+                    )
+                  }
+                  className="h-9 max-w-[100px] rounded-md border border-amber-300 bg-amber-50 px-2 text-xs font-medium text-amber-900 outline-none transition focus:ring-2 focus:ring-amber-200 sm:max-w-none sm:text-sm"
+                >
+                  <option value="">
+                    🛠 Dev
+                  </option>
 
-                {devLocations.map(
-                  (location) => (
-                    <option
-                      key={location.name}
-                      value={location.name}
-                    >
-                      {location.name}
-                    </option>
-                  ),
-                )}
-              </select>
-            )}
+                  {devLocations.map(
+                    (location) => (
+                      <option
+                        key={location.name}
+                        value={location.name}
+                      >
+                        {location.name}
+                      </option>
+                    ),
+                  )}
+                </select>
+              )}
 
             {/* Station count */}
             <Badge
@@ -284,11 +288,10 @@ export default function MapPage() {
                       fuelType.value,
                     )
                   }
-                  className={`shrink-0 whitespace-nowrap ${
-                    active
-                      ? "bg-green-600 text-white hover:bg-green-700"
-                      : "text-muted-foreground"
-                  }`}
+                  className={`shrink-0 whitespace-nowrap ${active
+                    ? "bg-green-600 text-white hover:bg-green-700"
+                    : "text-muted-foreground"
+                    }`}
                 >
                   {fuelType.label}
                 </Button>
@@ -330,14 +333,14 @@ export default function MapPage() {
       {/* Map */}
       <section className="relative min-h-0 flex-1 overflow-hidden">
         {loading ? (
-          <div className="flex h-full w-full items-center justify-center bg-slate-100">
-            <div className="flex flex-col items-center gap-3">
-              <div className="size-8 animate-spin rounded-full border-2 border-slate-300 border-t-green-600" />
+          <div className="flex h-full w-full flex-col items-center justify-center gap-3 bg-slate-50">
+            <LoaderCircle className="size-7 animate-spin text-green-600" />
 
-              <p className="text-sm font-medium text-muted-foreground">
-                Se încarcă stațiile...
-              </p>
-            </div>
+            <p className="text-sm text-slate-500">
+              {locationLoading
+                ? "Se determină locația..."
+                : "Se încarcă stațiile..."}
+            </p>
           </div>
         ) : (
           <FuelMapWrapper
