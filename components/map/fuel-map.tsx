@@ -31,6 +31,7 @@ type UserLocation = {
 type FuelMapProps = {
   stations: MapStation[];
   userLocation: UserLocation | null;
+  currency: string;
 };
 
 function createPriceIcon(price: number | null) {
@@ -76,7 +77,7 @@ function MapCenter({
   return null;
 }
 
-export function FuelMap({stations, userLocation,}: FuelMapProps) {
+export function FuelMap({ stations, userLocation, currency, }: FuelMapProps) {
   const center = useMemo<[number, number]>(() => {
     if (stations.length > 0) {
       return [
@@ -97,7 +98,7 @@ export function FuelMap({stations, userLocation,}: FuelMapProps) {
     >
 
       <MapCenter location={userLocation} />
-      
+
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -144,7 +145,7 @@ export function FuelMap({stations, userLocation,}: FuelMapProps) {
 
                 <p className="text-lg font-bold">
                   {station.price !== null
-                    ? `${station.price.toFixed(2)} lei/L`
+                    ? `${station.price.toFixed(2)} ${currency}/L`
                     : "Preț indisponibil"}
                 </p>
               </div>
