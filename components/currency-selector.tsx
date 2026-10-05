@@ -34,7 +34,7 @@ export function CurrencySelector({
     >
       {CURRENCIES.map((currency) => (
         <option key={currency.code} value={currency.code}>
-          {currency.code} — {currency.name} ({currency.symbol})
+          {currency.code} ({currency.symbol})
         </option>
       ))}
     </select>

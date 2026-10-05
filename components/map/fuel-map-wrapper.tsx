@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 
 import type { MapStation } from "./fuel-map";
-import { CurrencySelector } from "../currency-selector";
 
 const FuelMap = dynamic(
   () =>
@@ -13,11 +12,10 @@ const FuelMap = dynamic(
     ),
   {
     ssr: false,
-
     loading: () => (
-      <div className="flex h-[calc(100vh-80px)] min-h-[500px] items-center justify-center">
-        <div className="text-sm text-gray-500">
-          Map loading...
+      <div className="flex h-full w-full items-center justify-center">
+        <div className="text-sm text-slate-500">
+          Se încarcă harta...
         </div>
       </div>
     ),
@@ -37,14 +35,17 @@ type ExchangeRate = {
 type FuelMapWrapperProps = {
   stations: MapStation[];
   userLocation: UserLocation | null;
+  currency: string;
 };
 
 export function FuelMapWrapper({
   stations,
   userLocation,
+  currency,
 }: FuelMapWrapperProps) {
-  const [currency, setCurrency] = useState("RON");
-  const [rates, setRates] = useState<ExchangeRate[]>([]);
+  const [rates, setRates] = useState<
+    ExchangeRate[]
+  >([]);
 
   useEffect(() => {
     async function loadRates() {
@@ -83,7 +84,8 @@ export function FuelMapWrapper({
       }
 
       const rate = rates.find(
-        (item) => item.currency === currency,
+        (item) =>
+          item.currency === currency,
       );
 
       if (!rate) {
@@ -98,19 +100,10 @@ export function FuelMapWrapper({
   );
 
   return (
-    <div className="relative">
-      <div className="absolute right-4 top-4 z-[1000]">
-        <CurrencySelector
-          value={currency}
-          onChange={setCurrency}
-        />
-      </div>
-
-      <FuelMap
-        stations={convertedStations}
-        userLocation={userLocation}
-        currency={currency}
-      />
-    </div>
+    <FuelMap
+      stations={convertedStations}
+      userLocation={userLocation}
+      currency={currency}
+    />
   );
 }

@@ -94,7 +94,7 @@ export function FuelMap({ stations, userLocation, currency, }: FuelMapProps) {
       center={center}
       zoom={13}
       scrollWheelZoom={true}
-      className="h-[calc(100vh-80px)] min-h-[500px] w-full"
+      className="h-full min-h-0 w-full"
     >
 
       <MapCenter location={userLocation} />
