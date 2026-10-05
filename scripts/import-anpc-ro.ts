@@ -1,5 +1,3 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 import fs from "node:fs";
 import path from "node:path";
 
@@ -173,22 +171,44 @@ async function importStation(
         );
 
     for (const product of products) {
-        const latestPrice =
-            await db.fuelPrice.findFirst({
+        if (
+            product.price === null ||
+            product.price === undefined ||
+            !Number.isFinite(product.price)
+        ) {
+            console.warn(
+                `  ⚠️ ${fuelType}: produs fără preț la stația ${station.id}`,
+            );
+
+            continue;
+        }
+
+        const existingPrice =
+            await db.fuelPrice.findUnique({
                 where: {
-                    stationId: savedStation.id,
-                    fuelType,
-                },
-                orderBy: {
-                    observedAt: "desc",
+                    stationId_fuelType_observedAt: {
+                        stationId: savedStation.id,
+                        fuelType,
+                        observedAt,
+                    },
                 },
             });
 
-        if (
-            latestPrice &&
-            Number(latestPrice.price) ===
-            product.price
-        ) {
+        if (existingPrice) {
+            if (
+                Number(existingPrice.price) !==
+                product.price
+            ) {
+                await db.fuelPrice.update({
+                    where: {
+                        id: existingPrice.id,
+                    },
+                    data: {
+                        price: product.price,
+                    },
+                });
+            }
+
             continue;
         }
 
@@ -309,7 +329,7 @@ async function main() {
 main()
     .catch((error) => {
         console.error(
-            "\n❌ Import eșuat:",
+            "\n❌ Import failed:",
         );
         console.error(error);
         process.exit(1);

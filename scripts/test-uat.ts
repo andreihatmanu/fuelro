@@ -1,5 +1,3 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 import { getUatByName } from "../lib/data-sources/anpc";
 
 async function main() {

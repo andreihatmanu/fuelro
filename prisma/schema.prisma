@@ -169,3 +169,9 @@ model PriceReport {
 
   createdAt  DateTime     @default(now())
 }
+
+model ImportState {
+  id          String   @id
+  currentIndex Int     @default(0)
+  updatedAt   DateTime @updatedAt
+}

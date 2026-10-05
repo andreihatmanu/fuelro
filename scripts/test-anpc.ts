@@ -1,5 +1,3 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
 import { getGasItemsByUat } from "../lib/data-sources/anpc";
 
 const ANPC_PRODUCT_MAP = {
