@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useMemo } from "react";
-import { getCurrencySymbol } from "@/lib/currency";
 import {
   MapContainer,
   Marker,
@@ -13,7 +12,14 @@ import L from "leaflet";
 import {
   MapPin,
   Navigation,
+  Route,
 } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { getCurrencySymbol } from "@/lib/currency";
 
 import "leaflet/dist/leaflet.css";
 
@@ -38,7 +44,6 @@ type FuelMapProps = {
   userLocation: UserLocation | null;
   currency: string;
 };
-
 
 function createPriceIcon(
   price: number | null,
@@ -93,16 +98,132 @@ function MapCenter({
   return null;
 }
 
-function formatDistance(
-  distance: number,
-) {
+function formatDistance(distance: number) {
   if (distance < 1) {
-    return `${Math.round(
-      distance * 1000,
-    )} m`;
+    return `${Math.round(distance * 1000)} m`;
   }
 
   return `${distance.toFixed(1)} km`;
+}
+
+function getDirectionsUrl(
+  latitude: number,
+  longitude: number,
+) {
+  return `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
+}
+
+function StationPopup({
+  station,
+  currency,
+}: {
+  station: MapStation;
+  currency: string;
+}) {
+  const symbol = getCurrencySymbol(currency);
+
+  return (
+    <Card className="w-[270px] border-0 shadow-none">
+      <CardContent className="p-0">
+        {/* Header */}
+        <div className="flex items-start gap-3">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-green-50 text-green-600">
+            <MapPin className="size-5" />
+          </div>
+
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-sm font-semibold text-slate-900">
+              {station.name}
+            </h3>
+
+            {station.brand && (
+              <p className="mt-0.5 truncate text-xs text-muted-foreground">
+                {station.brand}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Location */}
+        {(station.city || station.distance !== null) && (
+          <div className="mt-3 flex items-center gap-2">
+            {station.city && (
+              <Badge
+                variant="secondary"
+                className="max-w-[150px] truncate font-normal"
+              >
+                {station.city}
+              </Badge>
+            )}
+
+            {station.distance !== null && (
+              <Badge
+                variant="outline"
+                className="shrink-0 gap-1 font-medium text-green-700"
+              >
+                <Navigation className="size-3" />
+                {formatDistance(station.distance)}
+              </Badge>
+            )}
+          </div>
+        )}
+
+        <Separator className="my-3" />
+
+        {/* Price */}
+        <div className="rounded-xl bg-green-50 p-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-medium text-green-800">
+              Benzină 95
+            </span>
+
+            <Badge
+              variant="outline"
+              className="border-green-200 bg-white text-[10px] text-green-700"
+            >
+              Preț
+            </Badge>
+          </div>
+
+          {station.price !== null ? (
+            <div className="mt-1 flex items-baseline gap-1">
+              <span className="text-3xl font-bold tracking-tight text-slate-900">
+                {station.price.toFixed(2)}
+              </span>
+
+              <span className="text-sm font-semibold text-slate-500">
+                {symbol}/L
+              </span>
+            </div>
+          ) : (
+            <p className="mt-2 text-sm font-medium text-muted-foreground">
+              Preț indisponibil
+            </p>
+          )}
+        </div>
+
+        {/* Navigation */}
+        <Button
+          type="button"
+          size="sm"
+          className="mt-3 w-full gap-2 bg-green-600 text-white hover:bg-green-700"
+          onClick={() => {
+            window.open(
+              getDirectionsUrl(
+                station.latitude,
+                station.longitude,
+              ),
+              "_blank",
+              "noopener,noreferrer",
+            );
+          }}
+        >
+          <Route className="size-4 shrink-0" />
+          <span>Indicații</span>
+        </Button>
+      </CardContent>
+    </Card>
+  );
 }
 
 export function FuelMap({
@@ -110,9 +231,7 @@ export function FuelMap({
   userLocation,
   currency,
 }: FuelMapProps) {
-  const center = useMemo<
-    [number, number]
-  >(() => {
+  const center = useMemo<[number, number]>(() => {
     if (stations.length > 0) {
       return [
         stations[0].latitude,
@@ -120,8 +239,15 @@ export function FuelMap({
       ];
     }
 
+    if (userLocation) {
+      return [
+        userLocation.latitude,
+        userLocation.longitude,
+      ];
+    }
+
     return [44.4268, 26.1025];
-  }, [stations]);
+  }, [stations, userLocation]);
 
   return (
     <MapContainer
@@ -153,70 +279,10 @@ export function FuelMap({
             closeButton={true}
             className="fuel-popup"
           >
-            <div className="w-[240px] p-1">
-              {/* Station header */}
-              <div className="flex items-start justify-between gap-3">
-                <div className="min-w-0">
-                  <h3 className="truncate text-sm font-semibold text-slate-900">
-                    {station.name}
-                  </h3>
-
-                  {station.brand && (
-                    <p className="mt-0.5 text-xs text-slate-500">
-                      {station.brand}
-                    </p>
-                  )}
-                </div>
-
-                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-600">
-                  <MapPin className="size-4" />
-                </div>
-              </div>
-
-              {/* Location */}
-              <div className="mt-3 flex items-center justify-between gap-3">
-                {station.city && (
-                  <span className="truncate text-xs text-slate-500">
-                    {station.city}
-                  </span>
-                )}
-
-                {station.distance !== null && (
-                  <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-green-700">
-                    <Navigation className="size-3" />
-
-                    {formatDistance(
-                      station.distance,
-                    )}
-                  </span>
-                )}
-              </div>
-
-              {/* Price */}
-              <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
-                <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
-                  Benzină 95
-                </p>
-
-                {station.price !== null ? (
-                  <div className="mt-1 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold tracking-tight text-slate-900">
-                      {station.price.toFixed(
-                        2,
-                      )}
-                    </span>
-
-                    <span className="text-xs font-medium text-slate-500">
-                      {currency}/L
-                    </span>
-                  </div>
-                ) : (
-                  <p className="mt-1 text-sm font-medium text-slate-500">
-                    Preț indisponibil
-                  </p>
-                )}
-              </div>
-            </div>
+            <StationPopup
+              station={station}
+              currency={currency}
+            />
           </Popup>
         </Marker>
       ))}
