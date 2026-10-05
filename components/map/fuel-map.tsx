@@ -1,11 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import {
   MapContainer,
   Marker,
   Popup,
   TileLayer,
+  useMap,
 } from "react-leaflet";
 import L from "leaflet";
 
@@ -19,10 +20,17 @@ export type MapStation = {
   latitude: number;
   longitude: number;
   price: number | null;
+  distance: number | null;
+};
+
+type UserLocation = {
+  latitude: number;
+  longitude: number;
 };
 
 type FuelMapProps = {
   stations: MapStation[];
+  userLocation: UserLocation | null;
 };
 
 function createPriceIcon(price: number | null) {
@@ -44,9 +52,31 @@ function createPriceIcon(price: number | null) {
   });
 }
 
-export function FuelMap({
-  stations,
-}: FuelMapProps) {
+function MapCenter({
+  location,
+}: {
+  location: UserLocation | null;
+}) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!location) {
+      return;
+    }
+
+    map.flyTo(
+      [location.latitude, location.longitude],
+      13,
+      {
+        duration: 1,
+      },
+    );
+  }, [location, map]);
+
+  return null;
+}
+
+export function FuelMap({stations, userLocation,}: FuelMapProps) {
   const center = useMemo<[number, number]>(() => {
     if (stations.length > 0) {
       return [
@@ -65,6 +95,9 @@ export function FuelMap({
       scrollWheelZoom={true}
       className="h-[calc(100vh-80px)] min-h-[500px] w-full"
     >
+
+      <MapCenter location={userLocation} />
+      
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -94,6 +127,13 @@ export function FuelMap({
               {station.city && (
                 <p className="mt-1 text-sm text-gray-500">
                   {station.city}
+                </p>
+              )}
+              {station.distance !== null && (
+                <p className="mt-1 text-sm font-medium text-green-700">
+                  {station.distance < 1
+                    ? `${Math.round(station.distance * 1000)} m`
+                    : `${station.distance.toFixed(1)} km`}
                 </p>
               )}
 

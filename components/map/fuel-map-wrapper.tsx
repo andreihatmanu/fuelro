@@ -22,12 +22,24 @@ const FuelMap = dynamic(
   },
 );
 
+type UserLocation = {
+  latitude: number;
+  longitude: number;
+};
+
 type FuelMapWrapperProps = {
   stations: MapStation[];
+  userLocation: UserLocation | null;
 };
 
 export function FuelMapWrapper({
   stations,
+  userLocation,
 }: FuelMapWrapperProps) {
-  return <FuelMap stations={stations} />;
+  return (
+    <FuelMap
+      stations={stations}
+      userLocation={userLocation}
+    />
+  );
 }
