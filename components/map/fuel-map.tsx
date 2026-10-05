@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import {
   MapContainer,
   Marker,
@@ -9,6 +9,10 @@ import {
   useMap,
 } from "react-leaflet";
 import L from "leaflet";
+import {
+  MapPin,
+  Navigation,
+} from "lucide-react";
 
 import "leaflet/dist/leaflet.css";
 
@@ -34,22 +38,26 @@ type FuelMapProps = {
   currency: string;
 };
 
-function createPriceIcon(price: number | null) {
+function createPriceIcon(
+  price: number | null,
+) {
   const text =
     price !== null
-      ? `${price.toFixed(2)}`
-      : "-";
+      ? price.toFixed(2)
+      : "—";
 
   return L.divIcon({
     className: "fuel-marker-wrapper",
     html: `
       <div class="fuel-marker">
-        <span>${text}</span>
+        <span class="fuel-marker-price">
+          ${text}
+        </span>
       </div>
     `,
-    iconSize: [64, 34],
-    iconAnchor: [32, 17],
-    popupAnchor: [0, -20],
+    iconSize: [70, 38],
+    iconAnchor: [35, 19],
+    popupAnchor: [0, -23],
   });
 }
 
@@ -66,7 +74,10 @@ function MapCenter({
     }
 
     map.flyTo(
-      [location.latitude, location.longitude],
+      [
+        location.latitude,
+        location.longitude,
+      ],
       13,
       {
         duration: 1,
@@ -77,8 +88,26 @@ function MapCenter({
   return null;
 }
 
-export function FuelMap({ stations, userLocation, currency, }: FuelMapProps) {
-  const center = useMemo<[number, number]>(() => {
+function formatDistance(
+  distance: number,
+) {
+  if (distance < 1) {
+    return `${Math.round(
+      distance * 1000,
+    )} m`;
+  }
+
+  return `${distance.toFixed(1)} km`;
+}
+
+export function FuelMap({
+  stations,
+  userLocation,
+  currency,
+}: FuelMapProps) {
+  const center = useMemo<
+    [number, number]
+  >(() => {
     if (stations.length > 0) {
       return [
         stations[0].latitude,
@@ -96,7 +125,6 @@ export function FuelMap({ stations, userLocation, currency, }: FuelMapProps) {
       scrollWheelZoom={true}
       className="h-full min-h-0 w-full"
     >
-
       <MapCenter location={userLocation} />
 
       <TileLayer
@@ -111,43 +139,76 @@ export function FuelMap({ stations, userLocation, currency, }: FuelMapProps) {
             station.latitude,
             station.longitude,
           ]}
-          icon={createPriceIcon(station.price)}
+          icon={createPriceIcon(
+            station.price,
+          )}
         >
-          <Popup>
-            <div className="min-w-[180px]">
-              <h3 className="text-base font-semibold">
-                {station.name}
-              </h3>
+          <Popup
+            closeButton={true}
+            className="fuel-popup"
+          >
+            <div className="w-[240px] p-1">
+              {/* Station header */}
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <h3 className="truncate text-sm font-semibold text-slate-900">
+                    {station.name}
+                  </h3>
 
-              {station.brand && (
-                <p className="text-sm text-gray-500">
-                  {station.brand}
-                </p>
-              )}
+                  {station.brand && (
+                    <p className="mt-0.5 text-xs text-slate-500">
+                      {station.brand}
+                    </p>
+                  )}
+                </div>
 
-              {station.city && (
-                <p className="mt-1 text-sm text-gray-500">
-                  {station.city}
-                </p>
-              )}
-              {station.distance !== null && (
-                <p className="mt-1 text-sm font-medium text-green-700">
-                  {station.distance < 1
-                    ? `${Math.round(station.distance * 1000)} m`
-                    : `${station.distance.toFixed(1)} km`}
-                </p>
-              )}
+                <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-green-50 text-green-600">
+                  <MapPin className="size-4" />
+                </div>
+              </div>
 
-              <div className="mt-3 border-t pt-3">
-                <p className="text-xs text-gray-500">
+              {/* Location */}
+              <div className="mt-3 flex items-center justify-between gap-3">
+                {station.city && (
+                  <span className="truncate text-xs text-slate-500">
+                    {station.city}
+                  </span>
+                )}
+
+                {station.distance !== null && (
+                  <span className="flex shrink-0 items-center gap-1 text-xs font-medium text-green-700">
+                    <Navigation className="size-3" />
+
+                    {formatDistance(
+                      station.distance,
+                    )}
+                  </span>
+                )}
+              </div>
+
+              {/* Price */}
+              <div className="mt-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-slate-500">
                   Benzină 95
                 </p>
 
-                <p className="text-lg font-bold">
-                  {station.price !== null
-                    ? `${station.price.toFixed(2)} ${currency}/L`
-                    : "Preț indisponibil"}
-                </p>
+                {station.price !== null ? (
+                  <div className="mt-1 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold tracking-tight text-slate-900">
+                      {station.price.toFixed(
+                        2,
+                      )}
+                    </span>
+
+                    <span className="text-xs font-medium text-slate-500">
+                      {currency}/L
+                    </span>
+                  </div>
+                ) : (
+                  <p className="mt-1 text-sm font-medium text-slate-500">
+                    Preț indisponibil
+                  </p>
+                )}
               </div>
             </div>
           </Popup>

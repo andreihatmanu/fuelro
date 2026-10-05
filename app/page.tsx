@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { MapPin } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 import { CurrencySelector } from "@/components/currency-selector";
 import { FuelMapWrapper } from "@/components/map/fuel-map-wrapper";
@@ -36,7 +40,9 @@ export default function MapPage() {
 
   const [currency, setCurrency] = useState("RON");
 
-  const [stations, setStations] = useState<MapStation[]>([]);
+  const [stations, setStations] = useState<MapStation[]>(
+    [],
+  );
 
   const [loading, setLoading] = useState(true);
 
@@ -139,135 +145,89 @@ export default function MapPage() {
     );
   }
 
+  function handleDevLocation(
+    value: string,
+  ) {
+    const selected = devLocations.find(
+      (location) =>
+        location.name === value,
+    );
+
+    setManualLocation(value);
+
+    if (selected) {
+      setLocation({
+        latitude: selected.latitude,
+        longitude: selected.longitude,
+      });
+
+      setLocationError(null);
+    }
+  }
+
   return (
     <main className="flex h-[100dvh] flex-col overflow-hidden bg-slate-50">
       {/* Header */}
-      <header className="relative z-[1100] border-b border-slate-200 bg-white">
-        <div className="mx-auto flex min-h-[72px] max-w-[1600px] items-center justify-between gap-4 px-3 sm:px-6">
-          {/* Brand */}
+      <header className="relative z-[1100] shrink-0 border-b bg-background">
+        <div className="mx-auto flex min-h-16 max-w-[1600px] items-center justify-between gap-3 px-3 sm:px-6">
+          {/* Logo */}
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-green-600 text-lg font-bold text-white shadow-sm">
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-green-600 font-bold text-white shadow-sm sm:size-10">
               F
             </div>
 
             <div className="min-w-0">
-              <h1 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
+              <h1 className="truncate text-lg font-bold tracking-tight sm:text-xl">
                 FuelRO
               </h1>
 
-              <p className="hidden text-xs text-slate-500 sm:block">
+              <p className="hidden text-xs text-muted-foreground sm:block">
                 Compară prețurile carburanților
               </p>
             </div>
           </div>
 
-          {/* Header controls */}
-          <div className="flex min-w-0 items-center justify-end gap-2">
-            {/* Development controls */}
-            {process.env.NODE_ENV === "development" && (
-              <>
-                <div className="hidden items-center gap-2 sm:flex">
-                  <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-amber-700">
-                    <span className="h-2 w-2 rounded-full bg-amber-500" />
-                    Dev
-                  </span>
+          {/* Controls */}
+          <div className="flex min-w-0 items-center gap-2">
+            {/* DEV */}
+            {process.env.NODE_ENV ===
+              "development" && (
+              <select
+                value={manualLocation}
+                onChange={(event) =>
+                  handleDevLocation(
+                    event.target.value,
+                  )
+                }
+                className="h-9 max-w-[100px] rounded-md border border-amber-300 bg-amber-50 px-2 text-xs font-medium text-amber-900 outline-none transition focus:ring-2 focus:ring-amber-200 sm:max-w-none sm:text-sm"
+              >
+                <option value="">
+                  🛠 Dev
+                </option>
 
-                  <select
-                    value={manualLocation}
-                    onChange={(event) => {
-                      const selected =
-                        devLocations.find(
-                          (location) =>
-                            location.name ===
-                            event.target.value,
-                        );
-
-                      setManualLocation(
-                        event.target.value,
-                      );
-
-                      if (selected) {
-                        setLocation({
-                          latitude:
-                            selected.latitude,
-                          longitude:
-                            selected.longitude,
-                        });
-
-                        setLocationError(null);
-                      }
-                    }}
-                    className="h-9 rounded-lg border border-amber-200 bg-amber-50 px-2.5 text-sm font-medium text-slate-700 outline-none transition hover:border-amber-300 focus:border-amber-400 focus:ring-2 focus:ring-amber-100"
-                  >
-                    <option value="">
-                      Oraș...
-                    </option>
-
-                    {devLocations.map((location) => (
-                      <option
-                        key={location.name}
-                        value={location.name}
-                      >
-                        {location.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Mobile dev selector */}
-                <select
-                  value={manualLocation}
-                  onChange={(event) => {
-                    const selected =
-                      devLocations.find(
-                        (location) =>
-                          location.name ===
-                          event.target.value,
-                      );
-
-                    setManualLocation(
-                      event.target.value,
-                    );
-
-                    if (selected) {
-                      setLocation({
-                        latitude:
-                          selected.latitude,
-                        longitude:
-                          selected.longitude,
-                      });
-
-                      setLocationError(null);
-                    }
-                  }}
-                  className="h-9 max-w-[90px] rounded-lg border border-amber-200 bg-amber-50 px-2 text-xs font-medium text-slate-700 outline-none sm:hidden"
-                >
-                  <option value="">
-                    Dev
-                  </option>
-
-                  {devLocations.map((location) => (
+                {devLocations.map(
+                  (location) => (
                     <option
                       key={location.name}
                       value={location.name}
                     >
                       {location.name}
                     </option>
-                  ))}
-                </select>
-              </>
+                  ),
+                )}
+              </select>
             )}
 
             {/* Station count */}
-            <div className="flex h-9 items-center rounded-lg bg-slate-100 px-3 text-sm">
-              <span className="font-bold text-slate-900">
-                {loading ? "—" : stations.length}
-              </span>
-
-              <span className="ml-1 text-slate-500">
+            <Badge
+              variant="secondary"
+              className="hidden h-9 px-3 text-sm md:inline-flex"
+            >
+              {loading ? "—" : stations.length}{" "}
+              <span className="ml-1 font-normal text-muted-foreground">
                 stații
               </span>
-            </div>
+            </Badge>
 
             {/* Currency */}
             <CurrencySelector
@@ -275,14 +235,15 @@ export default function MapPage() {
               onChange={setCurrency}
             />
 
-            {/* User location */}
-            <button
+            {/* Location */}
+            <Button
               type="button"
+              size="sm"
               onClick={getUserLocation}
               disabled={locationLoading}
-              className="flex h-9 items-center gap-1.5 rounded-lg bg-green-600 px-3 text-sm font-semibold text-white shadow-sm transition hover:bg-green-700 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:px-4"
+              className="h-9 gap-1.5 bg-green-600 px-3 hover:bg-green-700 sm:px-4"
             >
-              <span>📍</span>
+              <MapPin className="size-4" />
 
               <span className="hidden sm:inline">
                 {locationLoading
@@ -291,35 +252,46 @@ export default function MapPage() {
               </span>
 
               <span className="sm:hidden">
-                {locationLoading ? "..." : "Locație"}
+                {locationLoading
+                  ? "..."
+                  : "Locație"}
               </span>
-            </button>
+            </Button>
           </div>
         </div>
       </header>
 
       {/* Fuel selector */}
-      <div className="sticky top-0 z-[1050] border-b border-slate-200 bg-white/95 backdrop-blur">
+      <div className="sticky top-0 z-[1050] shrink-0 border-b bg-background/95 backdrop-blur">
         <div className="mx-auto max-w-[1600px] px-3 py-2 sm:px-6">
-          <div className="flex gap-1 overflow-x-auto rounded-xl bg-slate-100 p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-1 overflow-x-auto rounded-lg bg-muted p-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {fuelTypes.map((fuelType) => {
               const active =
                 fuel === fuelType.value;
 
               return (
-                <button
+                <Button
                   key={fuelType.value}
                   type="button"
-                  onClick={() =>
-                    setFuel(fuelType.value)
+                  variant={
+                    active
+                      ? "default"
+                      : "ghost"
                   }
-                  className={`min-h-9 shrink-0 rounded-lg px-3 text-xs font-medium transition-all sm:px-4 sm:text-sm ${active
-                    ? "bg-white text-green-700 shadow-sm ring-1 ring-slate-200"
-                    : "text-slate-600 hover:bg-white/70 hover:text-slate-900"
-                    }`}
+                  size="sm"
+                  onClick={() =>
+                    setFuel(
+                      fuelType.value,
+                    )
+                  }
+                  className={`shrink-0 whitespace-nowrap ${
+                    active
+                      ? "bg-green-600 text-white hover:bg-green-700"
+                      : "text-muted-foreground"
+                  }`}
                 >
                   {fuelType.label}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -328,10 +300,12 @@ export default function MapPage() {
 
       {/* Location */}
       {location && (
-        <div className="relative z-[1000] border-b border-green-100 bg-green-50">
+        <div className="relative z-[1000] shrink-0 border-b border-green-100 bg-green-50">
           <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-3 py-1.5 text-xs text-green-800 sm:px-6 sm:text-sm">
-            <span className="font-semibold">
-              📍 Locația ta
+            <MapPin className="size-3.5 shrink-0" />
+
+            <span className="font-medium">
+              Locația ta
             </span>
 
             <span className="text-green-700">
@@ -344,7 +318,7 @@ export default function MapPage() {
 
       {/* Location error */}
       {locationError && (
-        <div className="relative z-[1000] border-b border-red-100 bg-red-50">
+        <div className="relative z-[1000] shrink-0 border-b border-red-100 bg-red-50">
           <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-3 py-1.5 text-xs text-red-700 sm:px-6 sm:text-sm">
             <span>⚠️</span>
 
@@ -358,9 +332,9 @@ export default function MapPage() {
         {loading ? (
           <div className="flex h-full w-full items-center justify-center bg-slate-100">
             <div className="flex flex-col items-center gap-3">
-              <div className="h-8 w-8 animate-spin rounded-full border-2 border-slate-300 border-t-green-600" />
+              <div className="size-8 animate-spin rounded-full border-2 border-slate-300 border-t-green-600" />
 
-              <p className="text-sm font-medium text-slate-500">
+              <p className="text-sm font-medium text-muted-foreground">
                 Se încarcă stațiile...
               </p>
             </div>

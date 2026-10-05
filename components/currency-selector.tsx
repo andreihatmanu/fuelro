@@ -1,8 +1,16 @@
 "use client";
 
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select";
+
 type CurrencySelectorProps = {
-  value: string;
-  onChange: (currency: string) => void;
+    value: string;
+    onChange: (currency: string) => void;
 };
 
 const CURRENCIES = [
@@ -22,21 +30,41 @@ const CURRENCIES = [
   { code: "JPY", name: "Yen japonez", symbol: "¥" },
 ] as const;
 
+const currencyItems = CURRENCIES.map((currency) => ({
+    label: currency.code,
+    value: currency.code,
+}));
+
 export function CurrencySelector({
-  value,
-  onChange,
+    value,
+    onChange,
 }: CurrencySelectorProps) {
-  return (
-    <select
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      className="rounded-lg border bg-white px-3 py-2 text-sm shadow-sm"
-    >
-      {CURRENCIES.map((currency) => (
-        <option key={currency.code} value={currency.code}>
-          {currency.code} ({currency.symbol})
-        </option>
-      ))}
-    </select>
-  );
+    return (
+        <Select
+            items={currencyItems}
+            value={value}
+            onValueChange={(nextValue) => {
+                if (typeof nextValue === "string") {
+                    onChange(nextValue);
+                }
+            }}
+        >
+            <SelectTrigger className="h-9 w-[82px] bg-white text-sm font-medium">
+                <SelectValue placeholder="RON" />
+            </SelectTrigger>
+
+            <SelectContent alignItemWithTrigger={false}>
+                {CURRENCIES.map((currency) => (
+                    <SelectItem
+                        key={currency.code}
+                        value={currency.code}
+                    >
+                        <span className="font-medium">
+                            {currency.code} ({currency.symbol})
+                        </span>
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+    );
 }
