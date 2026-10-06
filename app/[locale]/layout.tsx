@@ -5,9 +5,7 @@ import {
 
 import { notFound } from "next/navigation";
 
-import {
-  getMessages,
-} from "next-intl/server";
+import { getMessages } from "next-intl/server";
 
 import { routing } from "@/i18n/routing";
 
@@ -22,20 +20,13 @@ export default async function LocaleLayout({
   children,
   params,
 }: LocaleLayoutProps) {
-  const { locale } =
-    await params;
+  const { locale } = await params;
 
-  if (
-    !hasLocale(
-      routing.locales,
-      locale,
-    )
-  ) {
+  if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  const messages =
-    await getMessages();
+  const messages = await getMessages();
 
   return (
     <NextIntlClientProvider
