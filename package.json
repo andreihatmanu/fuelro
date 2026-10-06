@@ -22,6 +22,8 @@
     "leaflet": "^1.9.4",
     "lucide-react": "^1.52.0",
     "next": "16.2.4",
+    "next-intl": "^4.14.9",
+    "nextjs-toast-notify": "^1.62.0",
     "pg": "^8.23.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",

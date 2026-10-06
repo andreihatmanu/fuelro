@@ -1,0 +1,122 @@
+{
+  "Common": {
+    "loading": "Se încarcă...",
+    "search": "Caută",
+    "save": "Salvează",
+    "cancel": "Anulează",
+    "close": "Închide",
+    "confirm": "Confirmă",
+    "retry": "Încearcă din nou",
+    "yes": "Da",
+    "no": "Nu",
+    "price": "Preț",
+    "distance": "Distanță",
+    "today": "Astăzi",
+    "unknown": "Necunoscut"
+  },
+
+  "Header": {
+    "title": "FuelRO",
+    "subtitle": "Compară prețurile carburanților",
+    "myLocation": "Locația mea",
+    "locating": "Se localizează...",
+    "stations": "stații"
+  },
+
+  "Fuel": {
+    "GASOLINE_95": "Benzină 95",
+    "GASOLINE_98": "Benzină 98",
+    "DIESEL": "Diesel",
+    "DIESEL_PREMIUM": "Diesel Premium",
+    "LPG": "GPL"
+  },
+
+  "Map": {
+    "searchArea": "Caută în această zonă",
+    "loadingStations": "Se încarcă stațiile...",
+    "noStations": "Nu există stații în această zonă.",
+    "price": "Preț",
+    "priceUnavailable": "Preț indisponibil",
+    "directions": "Indicații",
+    "close": "Închide",
+    "chooseNavigation": "Alege aplicația",
+    "google": "Google",
+    "apple": "Apple",
+    "waze": "Waze",
+    "yourLocation": "Locația ta",
+    "station": "Stație",
+    "fuelPrice": "Preț carburant",
+    "perLiter": "/L"
+  },
+
+  "Location": {
+    "yourLocation": "Locația ta",
+    "notSupported": "Browserul nu suportă geolocația.",
+    "permissionDenied": "Accesul la locație a fost refuzat.",
+    "positionUnavailable": "Locația nu este disponibilă momentan.",
+    "timeout": "Solicitarea locației a expirat.",
+    "failed": "Nu s-a putut obține locația.",
+    "enabled": "Locația ta a fost identificată.",
+    "searching": "Se caută stații în apropiere..."
+  },
+
+  "Currency": {
+    "label": "Monedă",
+    "RON": "Leu românesc",
+    "EUR": "Euro",
+    "USD": "Dolar american",
+    "GBP": "Liră sterlină",
+    "CHF": "Franc elvețian",
+    "PLN": "Zlot polonez",
+    "HUF": "Forint maghiar",
+    "CZK": "Coroană cehă",
+    "SEK": "Coroană suedeză",
+    "NOK": "Coroană norvegiană",
+    "DKK": "Coroană daneză",
+    "CAD": "Dolar canadian",
+    "AUD": "Dolar australian",
+    "JPY": "Yen japonez"
+  },
+
+  "Language": {
+    "label": "Limbă",
+    "romanian": "Română",
+    "english": "Engleză",
+    "german": "Germană",
+    "hungarian": "Maghiară",
+    "french": "Franceză",
+    "italian": "Italiană",
+    "spanish": "Spaniolă"
+  },
+
+  "Toast": {
+    "stationsLoaded": "Au fost găsite {count} stații.",
+    "stationsLoadFailed": "Stațiile nu au putut fi încărcate.",
+    "areaSearchCompleted": "Zona a fost actualizată.",
+    "locationFound": "Locația ta a fost identificată.",
+    "locationFailed": "Nu s-a putut determina locația ta.",
+    "locationPermissionDenied": "Permisiunea pentru locație a fost refuzată.",
+    "locationNotSupported": "Browserul tău nu suportă geolocația.",
+    "exchangeRatesFailed": "Cursurile valutare nu au putut fi încărcate.",
+    "languageChanged": "Limba a fost schimbată.",
+    "navigationOpened": "Se deschide aplicația de navigație.",
+    "genericError": "A apărut o eroare. Încearcă din nou.",
+    "success": "Operațiunea a fost finalizată.",
+    "warning": "Atenție"
+  },
+
+  "Navigation": {
+    "google": "Google Maps",
+    "apple": "Apple Maps",
+    "waze": "Waze",
+    "chooseApp": "Alege aplicația de navigație"
+  },
+
+  "Error": {
+    "generic": "A apărut o eroare.",
+    "network": "Nu s-a putut realiza conexiunea.",
+    "stations": "Nu am putut încărca stațiile.",
+    "exchangeRates": "Nu am putut încărca cursurile valutare.",
+    "tryAgain": "Te rugăm să încerci din nou."
+  }
+}

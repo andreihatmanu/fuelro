@@ -1,17 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
 import dynamic from "next/dynamic";
 
-import type { MapStation } from "./fuel-map";
+import type {
+  MapBounds,
+  MapStation,
+} from "./fuel-map";
 
 const FuelMap = dynamic(
   () =>
     import("./fuel-map").then(
-      (module) => module.FuelMap,
+      (module) =>
+        module.FuelMap,
     ),
   {
     ssr: false,
+
     loading: () => (
       <div className="flex h-full w-full items-center justify-center">
         <div className="text-sm text-slate-500">
@@ -34,25 +43,42 @@ type ExchangeRate = {
 
 type FuelMapWrapperProps = {
   stations: MapStation[];
-  userLocation: UserLocation | null;
+  userLocation:
+    | UserLocation
+    | null;
   currency: string;
+
+  onInitialBounds?: (
+    bounds: MapBounds,
+  ) => void;
+
+  onMapMove?: (
+    bounds: MapBounds,
+  ) => void;
+
+  onLocationMove?: (
+    bounds: MapBounds,
+  ) => void;
 };
 
 export function FuelMapWrapper({
   stations,
   userLocation,
   currency,
+  onInitialBounds,
+  onMapMove,
+  onLocationMove,
 }: FuelMapWrapperProps) {
-  const [rates, setRates] = useState<
-    ExchangeRate[]
-  >([]);
+  const [rates, setRates] =
+    useState<ExchangeRate[]>([]);
 
   useEffect(() => {
     async function loadRates() {
       try {
-        const response = await fetch(
-          "/api/exchange-rates",
-        );
+        const response =
+          await fetch(
+            "/api/exchange-rates",
+          );
 
         if (!response.ok) {
           throw new Error(
@@ -60,7 +86,8 @@ export function FuelMapWrapper({
           );
         }
 
-        const data = await response.json();
+        const data =
+          await response.json();
 
         setRates(data);
       } catch (error) {
@@ -74,8 +101,8 @@ export function FuelMapWrapper({
     loadRates();
   }, []);
 
-  const convertedStations = stations.map(
-    (station) => {
+  const convertedStations =
+    stations.map((station) => {
       if (
         station.price === null ||
         currency === "RON"
@@ -85,7 +112,8 @@ export function FuelMapWrapper({
 
       const rate = rates.find(
         (item) =>
-          item.currency === currency,
+          item.currency ===
+          currency,
       );
 
       if (!rate) {
@@ -94,16 +122,32 @@ export function FuelMapWrapper({
 
       return {
         ...station,
-        price: station.price / rate.rate,
+        price:
+          station.price /
+          rate.rate,
       };
-    },
-  );
+    });
 
   return (
-    <FuelMap
-      stations={convertedStations}
-      userLocation={userLocation}
-      currency={currency}
-    />
+    <div className="h-full w-full">
+      <FuelMap
+        stations={
+          convertedStations
+        }
+        userLocation={
+          userLocation
+        }
+        currency={currency}
+        onInitialBounds={
+          onInitialBounds
+        }
+        onMapMove={
+          onMapMove
+        }
+        onLocationMove={
+          onLocationMove
+        }
+      />
+    </div>
   );
 }

@@ -1,0 +1,122 @@
+{
+  "Common": {
+    "loading": "Loading...",
+    "search": "Search",
+    "save": "Save",
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "retry": "Try again",
+    "yes": "Yes",
+    "no": "No",
+    "price": "Price",
+    "distance": "Distance",
+    "today": "Today",
+    "unknown": "Unknown"
+  },
+
+  "Header": {
+    "title": "FuelRO",
+    "subtitle": "Compare fuel prices",
+    "myLocation": "My location",
+    "locating": "Locating...",
+    "stations": "stations"
+  },
+
+  "Fuel": {
+    "GASOLINE_95": "Gasoline 95",
+    "GASOLINE_98": "Gasoline 98",
+    "DIESEL": "Diesel",
+    "DIESEL_PREMIUM": "Premium Diesel",
+    "LPG": "LPG"
+  },
+
+  "Map": {
+    "searchArea": "Search this area",
+    "loadingStations": "Loading stations...",
+    "noStations": "There are no stations in this area.",
+    "price": "Price",
+    "priceUnavailable": "Price unavailable",
+    "directions": "Directions",
+    "close": "Close",
+    "chooseNavigation": "Choose an app",
+    "google": "Google",
+    "apple": "Apple",
+    "waze": "Waze",
+    "yourLocation": "Your location",
+    "station": "Station",
+    "fuelPrice": "Fuel price",
+    "perLiter": "/L"
+  },
+
+  "Location": {
+    "yourLocation": "Your location",
+    "notSupported": "Your browser does not support geolocation.",
+    "permissionDenied": "Location access was denied.",
+    "positionUnavailable": "Your location is currently unavailable.",
+    "timeout": "The location request timed out.",
+    "failed": "Unable to get your location.",
+    "enabled": "Your location has been identified.",
+    "searching": "Searching for nearby stations..."
+  },
+
+  "Currency": {
+    "label": "Currency",
+    "RON": "Romanian Leu",
+    "EUR": "Euro",
+    "USD": "US Dollar",
+    "GBP": "British Pound",
+    "CHF": "Swiss Franc",
+    "PLN": "Polish Zloty",
+    "HUF": "Hungarian Forint",
+    "CZK": "Czech Koruna",
+    "SEK": "Swedish Krona",
+    "NOK": "Norwegian Krone",
+    "DKK": "Danish Krone",
+    "CAD": "Canadian Dollar",
+    "AUD": "Australian Dollar",
+    "JPY": "Japanese Yen"
+  },
+
+  "Language": {
+    "label": "Language",
+    "romanian": "Romanian",
+    "english": "English",
+    "german": "German",
+    "hungarian": "Hungarian",
+    "french": "French",
+    "italian": "Italian",
+    "spanish": "Spanish"
+  },
+
+  "Toast": {
+    "stationsLoaded": "{count} stations found.",
+    "stationsLoadFailed": "Stations could not be loaded.",
+    "areaSearchCompleted": "The area has been updated.",
+    "locationFound": "Your location has been identified.",
+    "locationFailed": "Unable to determine your location.",
+    "locationPermissionDenied": "Location permission was denied.",
+    "locationNotSupported": "Your browser does not support geolocation.",
+    "exchangeRatesFailed": "Exchange rates could not be loaded.",
+    "languageChanged": "Language changed.",
+    "navigationOpened": "Opening the navigation app.",
+    "genericError": "Something went wrong. Please try again.",
+    "success": "Operation completed successfully.",
+    "warning": "Warning"
+  },
+
+  "Navigation": {
+    "google": "Google Maps",
+    "apple": "Apple Maps",
+    "waze": "Waze",
+    "chooseApp": "Choose a navigation app"
+  },
+
+  "Error": {
+    "generic": "Something went wrong.",
+    "network": "Unable to connect.",
+    "stations": "We couldn't load the stations.",
+    "exchangeRates": "We couldn't load the exchange rates.",
+    "tryAgain": "Please try again."
+  }
+}
