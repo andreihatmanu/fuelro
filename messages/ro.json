@@ -55,7 +55,7 @@
     "permissionDenied": "Accesul la locație a fost refuzat.",
     "positionUnavailable": "Locația nu este disponibilă momentan.",
     "timeout": "Solicitarea locației a expirat.",
-    "failed": "Nu s-a putut obține locația.",
+    "failed": "Nu s-a putut obține locația dvs.",
     "enabled": "Locația ta a fost identificată.",
     "searching": "Se caută stații în apropiere..."
   },
