@@ -1,0 +1,115 @@
+{
+  "Common": {
+    "loading": "Wird geladen...",
+    "search": "Suchen",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "close": "Schließen",
+    "confirm": "Bestätigen",
+    "retry": "Erneut versuchen",
+    "yes": "Ja",
+    "no": "Nein",
+    "price": "Preis",
+    "distance": "Entfernung",
+    "today": "Heute",
+    "unknown": "Unbekannt"
+  },
+  "Header": {
+    "title": "FuelRO",
+    "subtitle": "Kraftstoffpreise vergleichen",
+    "myLocation": "Mein Standort",
+    "locating": "Standort wird ermittelt...",
+    "stations": "Tankstellen"
+  },
+  "Fuel": {
+    "GASOLINE_95": "Benzin 95",
+    "GASOLINE_98": "Benzin 98",
+    "DIESEL": "Diesel",
+    "DIESEL_PREMIUM": "Premium-Diesel",
+    "LPG": "Autogas"
+  },
+  "Map": {
+    "searchArea": "In diesem Bereich suchen",
+    "loadingStations": "Tankstellen werden geladen...",
+    "noStations": "Keine Tankstellen in diesem Bereich.",
+    "price": "Preis",
+    "priceUnavailable": "Preis nicht verfügbar",
+    "directions": "Route",
+    "close": "Schließen",
+    "chooseNavigation": "App auswählen",
+    "google": "Google",
+    "apple": "Apple",
+    "waze": "Waze",
+    "yourLocation": "Dein Standort",
+    "station": "Tankstelle",
+    "fuelPrice": "Kraftstoffpreis",
+    "perLiter": "/L"
+  },
+  "Location": {
+    "yourLocation": "Dein Standort",
+    "notSupported": "Dein Browser unterstützt keine Geolokalisierung.",
+    "permissionDenied": "Der Zugriff auf den Standort wurde verweigert.",
+    "positionUnavailable": "Dein Standort ist derzeit nicht verfügbar.",
+    "timeout": "Die Standortabfrage ist abgelaufen.",
+    "failed": "Der Standort konnte nicht ermittelt werden.",
+    "enabled": "Dein Standort wurde ermittelt.",
+    "searching": "Tankstellen in der Nähe werden gesucht..."
+  },
+  "Currency": {
+    "label": "Währung",
+    "RON": "Rumänischer Leu",
+    "EUR": "Euro",
+    "USD": "US-Dollar",
+    "GBP": "Britisches Pfund",
+    "CHF": "Schweizer Franken",
+    "PLN": "Polnischer Zloty",
+    "HUF": "Ungarischer Forint",
+    "CZK": "Tschechische Krone",
+    "SEK": "Schwedische Krone",
+    "NOK": "Norwegische Krone",
+    "DKK": "Dänische Krone",
+    "CAD": "Kanadischer Dollar",
+    "AUD": "Australischer Dollar",
+    "JPY": "Japanischer Yen"
+  },
+  "Language": {
+    "label": "Sprache",
+    "romanian": "Rumänisch",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "hungarian": "Ungarisch",
+    "french": "Französisch",
+    "italian": "Italienisch",
+    "spanish": "Spanisch"
+  },
+  "Toast": {
+    "stationsLoaded": "{count} Tankstellen gefunden.",
+    "stationsLoadFailed": "Die Tankstellen konnten nicht geladen werden.",
+    "areaSearchCompleted": "Der Bereich wurde aktualisiert.",
+    "locationFound": "Dein Standort wurde ermittelt.",
+    "locationFailed": "Dein Standort konnte nicht ermittelt werden.",
+    "locationPermissionDenied": "Die Standortberechtigung wurde verweigert.",
+    "locationNotSupported": "Dein Browser unterstützt keine Geolokalisierung.",
+    "locationPositionUnavailable": "Dein Standort ist derzeit nicht verfügbar.",
+    "locationTimeout": "Die Standortabfrage ist abgelaufen.",
+    "exchangeRatesFailed": "Die Wechselkurse konnten nicht geladen werden.",
+    "languageChanged": "Die Sprache wurde geändert.",
+    "navigationOpened": "Die Navigations-App wird geöffnet.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "success": "Vorgang erfolgreich abgeschlossen.",
+    "warning": "Achtung"
+  },
+  "Navigation": {
+    "google": "Google Maps",
+    "apple": "Apple Maps",
+    "waze": "Waze",
+    "chooseApp": "Navigations-App auswählen"
+  },
+  "Error": {
+    "generic": "Etwas ist schiefgelaufen.",
+    "network": "Verbindung konnte nicht hergestellt werden.",
+    "stations": "Die Tankstellen konnten nicht geladen werden.",
+    "exchangeRates": "Die Wechselkurse konnten nicht geladen werden.",
+    "tryAgain": "Bitte versuche es erneut."
+  }
+}

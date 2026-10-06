@@ -1,0 +1,115 @@
+{
+  "Common": {
+    "loading": "Caricamento...",
+    "search": "Cerca",
+    "save": "Salva",
+    "cancel": "Annulla",
+    "close": "Chiudi",
+    "confirm": "Conferma",
+    "retry": "Riprova",
+    "yes": "Sì",
+    "no": "No",
+    "price": "Prezzo",
+    "distance": "Distanza",
+    "today": "Oggi",
+    "unknown": "Sconosciuto"
+  },
+  "Header": {
+    "title": "FuelRO",
+    "subtitle": "Confronta i prezzi dei carburanti",
+    "myLocation": "La mia posizione",
+    "locating": "Localizzazione...",
+    "stations": "stazioni"
+  },
+  "Fuel": {
+    "GASOLINE_95": "Benzina 95",
+    "GASOLINE_98": "Benzina 98",
+    "DIESEL": "Diesel",
+    "DIESEL_PREMIUM": "Diesel Premium",
+    "LPG": "GPL"
+  },
+  "Map": {
+    "searchArea": "Cerca in questa zona",
+    "loadingStations": "Caricamento delle stazioni...",
+    "noStations": "Nessuna stazione in questa zona.",
+    "price": "Prezzo",
+    "priceUnavailable": "Prezzo non disponibile",
+    "directions": "Indicazioni",
+    "close": "Chiudi",
+    "chooseNavigation": "Scegli un'app",
+    "google": "Google",
+    "apple": "Apple",
+    "waze": "Waze",
+    "yourLocation": "La tua posizione",
+    "station": "Stazione",
+    "fuelPrice": "Prezzo del carburante",
+    "perLiter": "/L"
+  },
+  "Location": {
+    "yourLocation": "La tua posizione",
+    "notSupported": "Il browser non supporta la geolocalizzazione.",
+    "permissionDenied": "L'accesso alla posizione è stato negato.",
+    "positionUnavailable": "La tua posizione non è attualmente disponibile.",
+    "timeout": "La richiesta di posizione è scaduta.",
+    "failed": "Impossibile ottenere la tua posizione.",
+    "enabled": "La tua posizione è stata identificata.",
+    "searching": "Ricerca di stazioni nelle vicinanze..."
+  },
+  "Currency": {
+    "label": "Valuta",
+    "RON": "Leu rumeno",
+    "EUR": "Euro",
+    "USD": "Dollaro statunitense",
+    "GBP": "Sterlina britannica",
+    "CHF": "Franco svizzero",
+    "PLN": "Zloty polacco",
+    "HUF": "Fiorino ungherese",
+    "CZK": "Corona ceca",
+    "SEK": "Corona svedese",
+    "NOK": "Corona norvegese",
+    "DKK": "Corona danese",
+    "CAD": "Dollaro canadese",
+    "AUD": "Dollaro australiano",
+    "JPY": "Yen giapponese"
+  },
+  "Language": {
+    "label": "Lingua",
+    "romanian": "Rumeno",
+    "english": "Inglese",
+    "german": "Tedesco",
+    "hungarian": "Ungherese",
+    "french": "Francese",
+    "italian": "Italiano",
+    "spanish": "Spagnolo"
+  },
+  "Toast": {
+    "stationsLoaded": "Trovate {count} stazioni.",
+    "stationsLoadFailed": "Impossibile caricare le stazioni.",
+    "areaSearchCompleted": "L'area è stata aggiornata.",
+    "locationFound": "La tua posizione è stata identificata.",
+    "locationFailed": "Impossibile determinare la tua posizione.",
+    "locationPermissionDenied": "Il permesso di localizzazione è stato negato.",
+    "locationNotSupported": "Il browser non supporta la geolocalizzazione.",
+    "locationPositionUnavailable": "La tua posizione non è attualmente disponibile.",
+    "locationTimeout": "La richiesta di posizione è scaduta.",
+    "exchangeRatesFailed": "Impossibile caricare i tassi di cambio.",
+    "languageChanged": "La lingua è stata cambiata.",
+    "navigationOpened": "Apertura dell'app di navigazione.",
+    "genericError": "Si è verificato un errore. Riprova.",
+    "success": "Operazione completata con successo.",
+    "warning": "Attenzione"
+  },
+  "Navigation": {
+    "google": "Google Maps",
+    "apple": "Mappe Apple",
+    "waze": "Waze",
+    "chooseApp": "Scegli un'app di navigazione"
+  },
+  "Error": {
+    "generic": "Si è verificato un errore.",
+    "network": "Impossibile connettersi.",
+    "stations": "Impossibile caricare le stazioni.",
+    "exchangeRates": "Impossibile caricare i tassi di cambio.",
+    "tryAgain": "Riprova."
+  }
+}
